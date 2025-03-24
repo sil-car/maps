@@ -43,3 +43,15 @@ class Config:
     output_dir: Path = repo_dir / 'output'
     base_layer_image: Path = output_dir / 'car-prefets.png'
     text_effect = define_path_effect(linewidth=1, foreground='white', alpha=0.9)
+
+
+years = {
+    '1990': ['sag'],
+    '1993': ['axk', 'gbp', 'gso', 'ksp', 'lnl', 'mcx', 'mzv', 'sag'],
+    '2003': ['axk', 'gbp', 'gso', 'ksp', 'lnl', 'mcx', 'nzk', 'sag'],  # remove mzv
+    '2008': ['axk', 'bdt', 'gbp', 'ksp', 'liy', 'lnl', 'mcx', 'ndy', 'nzk', 'sag'],
+    '2009': ['axk', 'bdt', 'gbp', 'ksp', 'liy', 'lnl', 'mcx', 'mzv', 'ndy', 'nzk', 'sag'],
+    '2012': ['bdt', 'gbp', 'ksp', 'liy', 'lnl', 'mcx', 'mzv', 'ndy', 'nzk', 'sag'],
+    '2023': ['aiy', 'bdt', 'bff', 'bjo', 'bkj', 'gbv', 'gso', 'kbn', 'liy', 'mcx', 'mdn', 'mzv', 'ndy', 'ngd', 'nzk', 'sag', 'vae', 'yaj'],
+    '2024': ['aiy', 'axk', 'bdt', 'bff', 'bjo', 'bkj', 'gbv', 'gso', 'kbn', 'liy', 'mcx', 'mdn', 'mzv', 'ndy', 'ngd', 'nzk', 'sag', 'vae', 'yaj'],
+}

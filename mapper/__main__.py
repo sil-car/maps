@@ -1,10 +1,16 @@
 import argparse
+import sys
 from . import __config__
 from . import maps
+from .config import years
 
 
 def main():
     parser = argparse.ArgumentParser(prog='mapper')
+    parser.add_argument(
+        '--by-year', action='store_true',
+        help='create map showing translation project status for each year',
+    )
     parser.add_argument(
         '--languages', nargs='+',
         help='limit languages shown on map',
@@ -22,6 +28,10 @@ def main():
         help='create map showing translation project status by color',
     )
     parser.add_argument(
+        '--year', nargs=1,
+        help='create map showing translation project status by given year',
+    )
+    parser.add_argument(
         'FILENAME', nargs='?',
         help="specify output filename [optional]",
     )
@@ -31,6 +41,18 @@ def main():
         __config__.filename = args.FILENAME
     if args.languages:
         __config__.languages = args.languages
+    if args.year:
+        __config__.filename = f"car-language-projects-{args.year[0]}"
+        __config__.languages = years.get(args.year[0])
+        maps.create_population_map()
+        sys.exit()
+    if args.by_year:
+        for year, langs in years.items():
+            __config__.filename = f"car-language-projects-{year}"
+            __config__.languages = langs
+            maps.create_population_map()
+        sys.exit()
+
     if args.locations:
         maps.create_location_map()
     if args.population:
