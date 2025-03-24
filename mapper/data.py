@@ -14,10 +14,13 @@ def get_cag_lgs_info_csv():
         r = csv.reader(f)
         ct = 0
         for row in r:
+            iso = row[3].strip('(').strip(')')
             if ct == 0:
                 ct += 1
                 continue
             elif row[0].endswith('tip'):
+                continue
+            if isinstance(__config__.languages, list) and iso not in __config__.languages:
                 continue
             names.append(row[0])
             try:

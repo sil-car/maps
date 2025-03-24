@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import shutil
+from highlight_text import ax_text
 from PIL import Image
 from . import __config__
 from .data import get_cag_lgs_info_csv
@@ -47,6 +48,36 @@ def setup_plot():
     return fig, ax
 
 
+def add_annotations(names, x, y, position='center'):
+    if position == 'offset':
+        ha = 'left'
+        va = 'bottom'
+        textalign = 'left'
+    else:
+        ha = 'center'
+        va = 'center'
+        textalign = 'center'
+
+    for i, name in enumerate(names):
+        ax_text(
+            x=x[i],
+            y=y[i],
+            s=f"<{name}>",
+            fontsize=8,
+            color=__config__.colors.text,
+            rotation=__config__.geometry.text_rotation,
+            highlight_textprops=[
+                {
+                    'path_effects': __config__.text_effect,
+                    'color': __config__.colors.text,
+                },
+            ],
+            ha=ha,
+            va=va,
+            textalign=textalign,
+        )
+
+
 def finish_and_save_plot(ax, outfile):
     # Adjust plot.
     ax.set(xlim=(14, 28), ylim=(2, 12), xticks=(), yticks=())
@@ -77,18 +108,7 @@ def create_location_layer(**kwargs):
 
     # Add data & labels (annotations).
     ax.scatter(x, y, s=sizes, facecolors=colors)
-    for i, name in enumerate(names):
-        ax.annotate(
-            name,
-            (x[i], y[i]),
-            fontsize=8,
-            color=__config__.colors.text,
-            rotation=__config__.geometry.text_rotation,
-            xytext=__config__.geometry.offset_location_text,
-            textcoords='offset points',
-            # horizontalalignment='center',
-            # verticalalignment='center',
-        )
+    add_annotations(names, x, y, position='offset')
 
     # Finish & save plot.
     finish_and_save_plot(ax, outfile)
@@ -116,16 +136,7 @@ def create_population_layer(**kwargs):
         facecolors=colors,
         alpha=__config__.geometry.dot_basic_alpha,
     )
-    for i, name in enumerate(names):
-        ax.annotate(
-            name,
-            (x[i], y[i]),
-            fontsize=8,
-            color=__config__.colors.text,
-            rotation=__config__.geometry.text_rotation,
-            horizontalalignment='center',
-            verticalalignment='center',
-        )
+    add_annotations(names, x, y, position='center')
 
     # Finish & save plot.
     finish_and_save_plot(ax, outfile)
@@ -153,16 +164,7 @@ def create_status_layer(**kwargs):
         facecolors=colors,
         alpha=__config__.geometry.dot_basic_alpha,
     )
-    for i, name in enumerate(names):
-        ax.annotate(
-            name,
-            (x[i], y[i]),
-            fontsize=8,
-            color=__config__.colors.text,
-            rotation=__config__.geometry.text_rotation,
-            horizontalalignment='center',
-            verticalalignment='center',
-        )
+    add_annotations(names, x, y, position='center')
 
     # Finish & save plot.
     finish_and_save_plot(ax, outfile)

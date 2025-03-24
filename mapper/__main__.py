@@ -1,9 +1,14 @@
 import argparse
+from . import __config__
 from . import maps
 
 
 def main():
     parser = argparse.ArgumentParser(prog='mapper')
+    parser.add_argument(
+        '--languages', nargs='+',
+        help='limit languages shown on map',
+    )
     parser.add_argument(
         '--locations', action='store_true',
         help='create map showing language locations',
@@ -16,8 +21,16 @@ def main():
         '--project-status', action='store_true',
         help='create map showing translation project status by color',
     )
+    parser.add_argument(
+        'FILENAME', nargs='?',
+        help="specify output filename [optional]",
+    )
     args = parser.parse_args()
 
+    if args.FILENAME:
+        __config__.filename = args.FILENAME
+    if args.languages:
+        __config__.languages = args.languages
     if args.locations:
         maps.create_location_map()
     if args.population:
