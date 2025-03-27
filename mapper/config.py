@@ -45,13 +45,50 @@ class Config:
     text_effect = define_path_effect(linewidth=1, foreground='white', alpha=0.9)
 
 
-years = {
-    '1990': ['sag'],
-    '1993': ['axk', 'gbp', 'gso', 'ksp', 'lnl', 'mcx', 'mzv', 'sag'],
-    '2003': ['axk', 'gbp', 'gso', 'ksp', 'lnl', 'mcx', 'nzk', 'sag'],  # remove mzv
-    '2008': ['axk', 'bdt', 'gbp', 'ksp', 'liy', 'lnl', 'mcx', 'ndy', 'nzk', 'sag'],
-    '2009': ['axk', 'bdt', 'gbp', 'ksp', 'liy', 'lnl', 'mcx', 'mzv', 'ndy', 'nzk', 'sag'],
-    '2012': ['bdt', 'gbp', 'ksp', 'liy', 'lnl', 'mcx', 'mzv', 'ndy', 'nzk', 'sag'],
-    '2023': ['aiy', 'bdt', 'bff', 'bjo', 'bkj', 'gbv', 'gso', 'kbn', 'liy', 'mcx', 'mdn', 'mzv', 'ndy', 'ngd', 'nzk', 'sag', 'vae', 'yaj'],
-    '2024': ['aiy', 'axk', 'bdt', 'bff', 'bjo', 'bkj', 'gbv', 'gso', 'kbn', 'liy', 'mcx', 'mdn', 'mzv', 'ndy', 'ngd', 'nzk', 'sag', 'vae', 'yaj'],
+project_starts = {
+    'linguistics': {
+        '1991': {'sag'},
+        '1993': {'axk', 'mzv'},
+        '1994': {'ksp'},
+        '1995': {'ndy'},
+        '2001': {'mcx'},
+        '2009': {'nzk'},
+        '2017': {'gbv', 'ngd', 'yky'},
+        '2018': {'aiy', 'bjo', 'mdn', 'nbm', 'ngg'},
+        '2019': {'bdt', 'bff', 'kbn', 'mdd', 'pnz', 'sqm', 'yaj'},
+        '2020': {'gbq', 'vae'},
+        '2021': {'bfl', 'bkj', 'bqk', 'lna'},
+        '2022': {'fuu', 'gbg', 'moj'},
+    },
+    'translation': {
+        '1993': {'axk', 'gbp', 'gso', 'ksp', 'lnl', 'mcx', 'mzv'},
+        '2003': {'nzk'},
+        '2008': {'bdt', 'liy', 'ndy'},
+        '2009': {'bdt'},
+        '2023': {'aiy', 'bff', 'bjo', 'bkj', 'gbv', 'gso', 'kbn', 'mdn', 'ngd', 'vae', 'yaj'},
+    },
+    'literacy': {
+        '1990': {'sag'},
+    },
 }
+
+# Get sequential list of years.
+yrs = [yr for k, v in project_starts.items() for yr in v.keys()]
+yrs = list(set(yrs))
+yrs.sort()
+
+# Initialize data dict.
+years = dict()
+for i, year in enumerate(yrs):
+    for data in project_starts.values():
+        for yr, lgs in data.items():
+            if yr == year:
+                # Add current year's languages.
+                if not years.get(yr):
+                    years[yr] = lgs
+                else:
+                    years[yr].update(lgs)
+                # Add previous year's languages.
+                if i > 0:
+                    years[yr].update(years.get(yrs[i-1]))
+                break

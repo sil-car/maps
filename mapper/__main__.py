@@ -47,10 +47,14 @@ def main():
         maps.create_population_map()
         sys.exit()
     if args.by_year:
+        last_langs = None
         for year, langs in years.items():
+            if last_langs and last_langs == langs:
+                continue
             __config__.filename = f"car-language-projects-{year}"
             __config__.languages = langs
             maps.create_population_map()
+            last_langs = langs
         sys.exit()
 
     if args.locations:

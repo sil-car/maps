@@ -20,7 +20,7 @@ def get_cag_lgs_info_csv():
                 continue
             elif row[0].endswith('tip'):
                 continue
-            if isinstance(__config__.languages, list) and iso not in __config__.languages:
+            if hasattr(__config__.languages, '__iter__') and iso not in __config__.languages:
                 continue
             names.append(row[0])
             try:
