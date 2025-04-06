@@ -23,7 +23,8 @@ class Colors:
 class Geometry:
     """Keep track of geometry preferences."""
     dot_radius_factor: int = 5
-    dot_basic_alpha: float = 0.7
+    dot_basic_alpha: float = 0.9
+    dot_prev_alpha: float = 0.4
     dot_basic_radius_factor: int = 10
     offset_base_image = (20, -100)  # used to align generated images with base image
     offset_location_text = (0, 5)  # text labels for dots on location map
@@ -36,7 +37,9 @@ class Config:
     colors: Colors = field(default_factory=Colors)
     filename: str = None
     geometry: Geometry = field(default_factory=Geometry)
+    show_names: bool = True
     languages = 'all'
+    prev_languages = None
     plot_style: str = '_mpl-gallery'
     repo_dir: Path = Path(__file__).parents[1]
     data_dir: Path = repo_dir / 'data'

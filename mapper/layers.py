@@ -1,9 +1,16 @@
 import matplotlib.pyplot as plt
 import shutil
+import sys
 from highlight_text import ax_text
 from PIL import Image
 from . import __config__
 from .data import get_cag_lgs_info_csv
+
+
+def error_exit(message=None):
+    if message:
+        print(f"Error: {message}", file=sys.stderr)
+    sys.exit(1)
 
 
 def create_base_layer(**kwargs):
@@ -114,11 +121,46 @@ def create_location_layer(**kwargs):
     finish_and_save_plot(ax, outfile)
 
 
+def create_previous_population_layer(**kwargs):
+    outfile = kwargs.get('outfile')
+
+    # Retrieve data.
+    if not __config__.prev_languages:
+        error_exit('No previous languages to map.')
+    x, y, names, populations, stages = get_cag_lgs_info_csv(__config__.prev_languages)
+
+    # Set dot sizes.
+    sizes = get_dot_sizes(populations, category='population')
+
+    # Set dot colors.
+    colors = get_dot_colors(names, category='equal')
+
+    # Prepare plot.
+    fig, ax = setup_plot()
+
+    # Add data & labels (annotations).
+    ax.scatter(
+        x, y,
+        s=sizes,
+        facecolors=colors,
+        alpha=__config__.geometry.dot_prev_alpha,
+    )
+    if __config__.show_names is not False:
+        add_annotations(names, x, y, position='center')
+
+    # Finish & save plot.
+    finish_and_save_plot(ax, outfile)
+
+
 def create_population_layer(**kwargs):
     outfile = kwargs.get('outfile')
 
     # Retrieve data.
-    x, y, names, populations, stages = get_cag_lgs_info_csv()
+    if __config__.prev_languages:
+        langs = {lg for lg in __config__.languages if lg not in __config__.prev_languages}
+    else:
+        langs = __config__.languages
+    x, y, names, populations, stages = get_cag_lgs_info_csv(langs)
 
     # Set dot sizes.
     sizes = get_dot_sizes(populations, category='population')
@@ -136,7 +178,8 @@ def create_population_layer(**kwargs):
         facecolors=colors,
         alpha=__config__.geometry.dot_basic_alpha,
     )
-    add_annotations(names, x, y, position='center')
+    if __config__.show_names is not False:
+        add_annotations(names, x, y, position='center')
 
     # Finish & save plot.
     finish_and_save_plot(ax, outfile)
@@ -175,6 +218,7 @@ def create_layer(layer_name):
     funcs = {
         'base': (create_base_layer, {'outfile': outfile}),
         'locations': (create_location_layer, {'outfile': outfile}),
+        'previous_populations': (create_previous_population_layer, {'outfile': outfile}),
         'populations': (create_population_layer, {'outfile': outfile}),
         'project_status': (create_status_layer, {'outfile': outfile}),
     }

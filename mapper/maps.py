@@ -24,6 +24,8 @@ def create_population_map():
     outfile = __config__.output_dir / filename
     images = []
     images.append(create_layer('base'))
+    if __config__.prev_languages:
+        images.append(create_layer('previous_populations'))
     images.append(create_layer('populations'))
     img = get_composite_image(images)
     img.save(outfile)

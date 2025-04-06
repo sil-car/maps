@@ -2,7 +2,7 @@ import csv
 from . import __config__
 
 
-def get_cag_lgs_info_csv():
+def get_cag_lgs_info_csv(filtered_isos=None):
     x = []
     y = []
     names = []
@@ -19,6 +19,8 @@ def get_cag_lgs_info_csv():
                 ct += 1
                 continue
             elif row[0].endswith('tip'):
+                continue
+            if filtered_isos and iso not in filtered_isos:
                 continue
             if hasattr(__config__.languages, '__iter__') and iso not in __config__.languages:
                 continue

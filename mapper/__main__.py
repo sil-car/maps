@@ -12,6 +12,10 @@ def main():
         help='create map showing translation project status for each year',
     )
     parser.add_argument(
+        '--by-year-diff', action='store_true',
+        help='create map showing translation project status for each year with changes highlighted',
+    )
+    parser.add_argument(
         '--languages', nargs='+',
         help='limit languages shown on map',
     )
@@ -46,12 +50,19 @@ def main():
         __config__.languages = years.get(args.year[0])
         maps.create_population_map()
         sys.exit()
-    if args.by_year:
+    if args.by_year or args.by_year_diff:
         last_langs = None
         for year, langs in years.items():
-            if last_langs and last_langs == langs:
-                continue
-            __config__.filename = f"car-language-projects-{year}"
+            diff = ''
+            if last_langs:
+                if last_langs == langs:
+                    continue
+                if args.by_year_diff:
+                    if __config__.show_names is True:
+                        __config__.show_names = False
+                    diff = '-diff'
+                    __config__.prev_languages = last_langs
+            __config__.filename = f"car-language-projects-{year}{diff}"
             __config__.languages = langs
             maps.create_population_map()
             last_langs = langs
