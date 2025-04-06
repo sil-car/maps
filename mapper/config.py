@@ -44,7 +44,7 @@ class Config:
     repo_dir: Path = Path(__file__).parents[1]
     data_dir: Path = repo_dir / 'data'
     output_dir: Path = repo_dir / 'output'
-    base_layer_image: Path = output_dir / 'car-prefets.png'
+    base_layer_image: Path = data_dir / 'car-prefets.png'
     text_effect = define_path_effect(linewidth=1, foreground='white', alpha=0.9)
 
 
