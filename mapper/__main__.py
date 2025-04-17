@@ -24,6 +24,10 @@ def main():
         help='create map showing language locations',
     )
     parser.add_argument(
+        '--names', action='store_true',
+        help='show language names',
+    )
+    parser.add_argument(
         '--population', action='store_true',
         help='create map showing language population relative sizes',
     )
@@ -45,6 +49,8 @@ def main():
         __config__.filename = args.FILENAME
     if args.languages:
         __config__.languages = args.languages
+    if args.names:
+        __config__.show_names = True
     if args.year:
         __config__.filename = f"car-language-projects-{args.year[0]}"
         __config__.languages = years.get(args.year[0])
@@ -58,10 +64,9 @@ def main():
                 if last_langs == langs:
                     continue
                 if args.by_year_diff:
-                    if __config__.show_names is True:
-                        __config__.show_names = False
                     diff = '-diff'
                     __config__.prev_languages = last_langs
+                    __config__.colors.dot_basic = __config__.colors.sil_blue
             __config__.filename = f"car-language-projects-{year}{diff}"
             __config__.languages = langs
             maps.create_population_map()

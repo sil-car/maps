@@ -12,10 +12,12 @@ def define_path_effect(**kwargs):
 class Colors:
     """Keep track of color scheme."""
     dot_basic: str = 'white'
+    dot_prev: str = 'white'
     dot: str = 'red'
     unengaged: str = 'red'
     ongoing: str = 'yellow'
     done: str = 'green'
+    sil_blue: str = '#005cb9'
     text: str = 'xkcd:royal blue'
 
 
@@ -37,7 +39,7 @@ class Config:
     colors: Colors = field(default_factory=Colors)
     filename: str = None
     geometry: Geometry = field(default_factory=Geometry)
-    show_names: bool = True
+    show_names: bool = None
     languages = 'all'
     prev_languages = None
     plot_style: str = '_mpl-gallery'

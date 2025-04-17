@@ -20,6 +20,8 @@ def create_base_layer(**kwargs):
 def get_dot_colors(values, category='equal'):
     if category == 'equal':
         colors = [__config__.colors.dot_basic for v in values]
+    elif category == 'previous':
+        colors = [__config__.colors.dot_prev for v in values]
     elif category == 'status':
             # Add colors.
         color_map = {
@@ -56,6 +58,9 @@ def setup_plot():
 
 
 def add_annotations(names, x, y, position='center'):
+    if not __config__.show_names:
+        return
+
     if position == 'offset':
         ha = 'left'
         va = 'bottom'
@@ -133,7 +138,7 @@ def create_previous_population_layer(**kwargs):
     sizes = get_dot_sizes(populations, category='population')
 
     # Set dot colors.
-    colors = get_dot_colors(names, category='equal')
+    colors = get_dot_colors(names, category='previous')
 
     # Prepare plot.
     fig, ax = setup_plot()
