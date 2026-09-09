@@ -5,12 +5,12 @@ from .layers import get_composite_image
 
 def get_outfile_name(full_filename):
     if __config__.filename:
-        full_filename = f"{__config__.filename}.png"
+        full_filename = f"{__config__.filename}.{__config__.output_image_format}"
     return full_filename
 
 
 def create_location_map():
-    filename = get_outfile_name('car-language-locations-map.png')
+    filename = get_outfile_name(f"car-language-locations-map.{__config__.output_image_format}")
     outfile = __config__.output_dir / filename
     images = []
     images.append(create_layer('base'))
@@ -20,7 +20,7 @@ def create_location_map():
 
 
 def create_population_map():
-    filename = get_outfile_name('car-language-populations-map.png')
+    filename = get_outfile_name(f"car-language-populations-map.{__config__.output_image_format}")
     outfile = __config__.output_dir / filename
     images = []
     images.append(create_layer('base'))
@@ -32,7 +32,7 @@ def create_population_map():
 
 
 def create_project_status_map():
-    filename = get_outfile_name('car-language-project-status-map.png')
+    filename = get_outfile_name(f"car-language-project-status-map.{__config__.output_image_format}")
     outfile = __config__.output_dir / filename
     images = []
     images.append(create_layer('base'))

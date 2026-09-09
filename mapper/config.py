@@ -1,6 +1,6 @@
 import matplotlib.patheffects as path_effects
-from dataclasses import dataclass
-from dataclasses import field
+
+from dataclasses import dataclass, field
 from pathlib import Path
 
 
@@ -14,6 +14,8 @@ class Colors:
     dot_basic: str = 'white'
     dot_prev: str = 'white'
     dot: str = 'red'
+    map_area: str = "#F6F5F4"  # light gray
+    map_line: str = "#9A9996"  # dark gray
     unengaged: str = 'red'
     ongoing: str = 'yellow'
     done: str = 'green'
@@ -28,9 +30,16 @@ class Geometry:
     dot_basic_alpha: float = 0.9
     dot_prev_alpha: float = 0.4
     dot_basic_radius_factor: int = 10
-    offset_base_image = (20, -100)  # used to align generated images with base image
+    offset_png_base_image = (20, -100)  # used to align generated images with base image
     offset_location_text = (0, 5)  # text labels for dots on location map
     text_rotation: int = 15
+    img_h_in: int = 6
+    img_w_in: int = 8
+    dpi: int = 96
+    lat_min: int = 0 #2
+    lat_max: int = 15 #12
+    lon_min: int = 10 #14
+    lon_max: int = 30 #28
 
 
 @dataclass
@@ -39,6 +48,7 @@ class Config:
     colors: Colors = field(default_factory=Colors)
     filename: str = None
     geometry: Geometry = field(default_factory=Geometry)
+    show_control_points: bool = False
     show_names: bool = None
     languages = 'all'
     prev_languages = None
@@ -46,9 +56,12 @@ class Config:
     repo_dir: Path = Path(__file__).parents[1]
     data_dir: Path = repo_dir / 'data'
     output_dir: Path = repo_dir / 'output'
-    base_layer_image: Path = data_dir / 'car-prefets.png'
+    output_image_format = "png"
     text_effect = define_path_effect(linewidth=1, foreground='white', alpha=0.9)
 
+    @property
+    def base_layer_image(self):
+        return self.data_dir / f"car-prefets.{self.output_image_format}"
 
 project_starts = {
     'linguistics': {

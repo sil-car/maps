@@ -14,25 +14,30 @@ def get_cag_lgs_info_csv(filtered_isos=None):
         r = csv.reader(f)
         ct = 0
         for row in r:
+            # print(f"{row=}")
             iso = row[3].strip('(').strip(')')
             if ct == 0:
+                # skip header row
                 ct += 1
                 continue
-            elif row[0].endswith('tip'):
+            # Skip rows whose LAT and LON are empty.
+            try:
+                yi = float(row[1])
+                xi = float(row[2])
+            except ValueError:
                 continue
+            # Skip map alignment rows.
+            if __config__.show_control_points is False and row[0].endswith('tip'):
+                continue
+            # Skip excluded rows, if defined.
             if filtered_isos and iso not in filtered_isos:
                 continue
-            if hasattr(__config__.languages, '__iter__') and iso not in __config__.languages:
+            # Skip excluded rows, if defined (alternative method).
+            if isinstance(__config__.languages, (tuple, list)) and iso not in __config__.languages:
                 continue
             names.append(row[0])
-            try:
-                x.append(float(row[2]))
-            except ValueError:
-                x.append(0)
-            try:
-                y.append(float(row[1]))
-            except ValueError:
-                y.append(0)
+            x.append(xi)
+            y.append(yi)
             try:
                 populations.append(int(row[11]))
             except ValueError:

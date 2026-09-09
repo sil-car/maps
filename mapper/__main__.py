@@ -16,6 +16,16 @@ def main():
         help='create map showing translation project status for each year with changes highlighted',
     )
     parser.add_argument(
+        '--control-points', action='store_true',
+        help='show control points on map',
+    )
+    parser.add_argument(
+        "--dot-size", type=int, help="radius of plotted dot (if population is ignored)"
+    )
+    parser.add_argument(
+        "--image-format", type=str, help="format of generated image (PNG or SVG)"
+    )
+    parser.add_argument(
         '--languages', nargs='+',
         help='limit languages shown on map',
     )
@@ -47,6 +57,12 @@ def main():
 
     if args.FILENAME:
         __config__.filename = args.FILENAME
+    if args.control_points:
+        __config__.show_control_points = True
+    if args.dot_size:
+        __config__.geometry.dot_radius_factor = args.dot_size
+    if args.image_format:
+        __config__.output_image_format = args.image_format.lower()
     if args.languages:
         __config__.languages = args.languages
     if args.names:
@@ -74,6 +90,8 @@ def main():
         sys.exit()
 
     if args.locations:
+        # Change color preferences.
+        __config__.colors.dot_basic = "xkcd:royal blue"
         maps.create_location_map()
     if args.population:
         maps.create_population_map()
