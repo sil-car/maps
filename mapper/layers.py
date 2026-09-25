@@ -75,46 +75,46 @@ def add_annotations(names, x, y, position='center', ax=None):
 
     if ax is not None:
         props = {
-            "Ali": [(306, 357), "aiy"],
-            "Banda-Linda": [(535, 286), "liy"],
-            "Banda-Mbrès": [(503, 267), "bqk"],
-            "Banda-Ndélé": [(523, 235), "bfl"],
+            "Ali": [(405, 460), "aiy"],
+            "Banda-Linda": [(575, 210), "liy"],
+            "Banda-Mbrès": [(540, 185), "bqk"],
+            "Banda-Ndélé": [(505, 160), "bfl"],
             # "Banda-Yangere": [(513, 223), "yaj"],
-            "Bhofi": [(235, 492), "bff"],
-            "Bhogongo": [(97, 319), "bkj"],
-            "Bhogoto": [(118, 436), "bdt"],
-            "Fulu": [(369, 410), "fuu"],
-            "Gbagiri": [(540, 314), "bdt"],
-            "Gbanu": [(271, 331), "gbv"],
-            "Gbanziri": [(429, 439), "gbg"],
-            "Gbaya Bhianda": [(61, 377), "gso"],
-            "Gbaya-Bozoum": [(52, 273), "gbq"],
-            "Gbeya": [(314, 206), "gbp"],
-            "Kab(b)a": [(208, 182), "ksp"],
-            "Kaba Markunda": [(228, 158), "ksp"],
-            "Kare": [(189, 203), "kbn"],
+            "Bhofi": [(255, 460), "bff"],
+            "Bhogongo": [(80, 360), "bkj"],
+            "Bhogoto": [(120, 435), "bdt"],
+            "Fulu": [(610, 260), "fuu"],
+            "Gbagiri": [(80, 310), "bdt"],
+            "Gbanu": [(90, 335), "gbv"],
+            "Gbanziri": [(620, 310), "gbg"],
+            "Gbaya Bhianda": [(55, 385), "gso"],
+            "Gbaya-Bozoum": [(42, 285), "gbq"],
+            "Gbeya": [(300, 210), "gbp"],
+            "Kaba": [(215, 210), "ksp"],
+            "Kaba Markunda": [(200, 185), "ksp"],
+            "Kare": [(115, 260), "kbn"],
             # "Langba": [(555, 392), "lna"],
-            "Langbashe": [(571, 405), "lna"],
-            "Luto": [(394, 136), "ndy"],
-            "Mandja": [(430, 160), "mzv"],
-            "Mbati": [(323, 466), "mdn"],
-            "Mbum": [(123, 242), "mdd"],
-            "Monzombo": [(379, 488), "moj"],
-            "Mpyemo": [(124, 464), "mcx"],
-            "Ngando": [(283, 490), "ngd"],
-            "Ngbaka-Manza": [(472, 138), "ngg"],
-            "Ngbugu": [(507, 448), "lnl"],
-            "Ngombe": [(109, 409), "nmj"],
-            "Nzakara": [(570, 372), "nzk"],
-            "Pana": [(155, 221), "pnz"],
-            "Sango": [(364, 439), "sag"],
-            "Suma": [(292, 184), "sqm"],
-            "Tali": [(130, 299), "kbn"],
-            "Vale": [(397, 180), "vae"],
-            "Yaka": [(178, 488), "axk"],
-            "Yakoma": [(573, 431), "yky"],
-            "Yakpa": [(547, 341), "bjo"],
-            "Yangere (Kra)": [(71, 348), "yaj"],
+            "Langbashe": [(600, 235), "lna"],
+            "Luto": [(365, 185), "ndy"],
+            "Mandja": [(490, 135), "mzv"],
+            "Mbati": [(315, 460), "mdn"],
+            "Mbum": [(135, 235), "mdd"],
+            "Monzombo": [(385, 485), "moj"],
+            "Mpyemo": [(140, 460), "mcx"],
+            "Ngando": [(285, 485), "ngd"],
+            "Ngbaka-Manza": [(480, 460), "ngg"],
+            "Ngbugu": [(545, 410), "lnl"],
+            "Ngombe": [(90, 410), "nmj"],
+            "Nzakara": [(575, 385), "nzk"],
+            "Pana": [(155, 210), "pnz"],
+            "Sango": [(405, 435), "sag"],
+            "Suma": [(265, 235), "sqm"],
+            "Tali": [(200, 235), "kbn"],
+            "Vale": [(435, 135), "vae"],
+            "Yaka": [(190, 485), "axk"],
+            "Yakoma": [(520, 435), "yky"],
+            "Yakpa": [(610, 285), "bjo"],
+            "Yangere (Kra)": [(195, 510), "yaj"],
         }
         scale = 3 / 4
         yshift = 15
@@ -122,7 +122,7 @@ def add_annotations(names, x, y, position='center', ax=None):
             map_name = None
             xt, yt = (200 * scale, 300 * scale)
             for k in props:
-                if k in name:
+                if k == name:
                     map_name = k
                     xt, yt = (v * scale for v in props.get(k)[0])
                     yt += yshift
@@ -328,9 +328,14 @@ def get_composite_image(layers):
         # Define base "prefectures" layer.
         base_img = SvgImage(base, id="0", label=base.stem)
         # REF: svg/geoViewBox
-        base_img.lat_min = 2.219468
-        base_img.lat_max = 11.007742
-        base_img.lon_min = 14.421468
+        # car-prefets-16.svg
+        # base_img.lat_min = 2.219468
+        # base_img.lat_max = 11.007742
+        # base_img.lon_min = 14.421468
+        # car-prefets.svg
+        base_img.lat_min = 1.90
+        base_img.lat_max = 11.30
+        base_img.lon_min = 14.15
 
         # Define the output image itself; add base layer.
         img = SvgImage()
