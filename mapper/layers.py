@@ -22,7 +22,8 @@ def create_base_layer(**kwargs):
 
 def get_dot_colors(values, category='equal'):
     if category == 'equal':
-        colors = [__config__.colors.dot_basic for v in values]
+        # colors = [__config__.colors.dot_basic for v in values]
+        colors = [__config__.colors.sil_blue for v in values]
     elif category == 'previous':
         colors = [__config__.colors.dot_prev for v in values]
     elif category == 'status':
@@ -136,7 +137,8 @@ def add_annotations(names, x, y, position='center', ax=None):
                 xycoords="data",
                 fontsize=12,
                 alpha=1,
-                color=__config__.colors.text,
+                # color=__config__.colors.text,
+                color=__config__.colors.sil_blue,
                 # rotation=__config__.geometry.text_rotation,
                 # ha=ha,
                 # va=va,
@@ -146,7 +148,8 @@ def add_annotations(names, x, y, position='center', ax=None):
                 arrowprops={
                     "arrowstyle": "-",
                     # "connectionstyle": "angle3",
-                    "color": __config__.colors.text,
+                    # "color": __config__.colors.text,
+                    "color": __config__.colors.sil_blue,
                     "shrinkA": 0.05,
                     # "headwidth": 0,
                     # "headlength": 0,
@@ -160,12 +163,14 @@ def add_annotations(names, x, y, position='center', ax=None):
                 y=y[i],
                 s=f"<{name}>",
                 fontsize=8,
-                color=__config__.colors.text,
+                # color=__config__.colors.text,
+                color=__config__.colors.sil_blue,
                 rotation=__config__.geometry.text_rotation,
                 highlight_textprops=[
                     {
                         'path_effects': __config__.text_effect,
-                        'color': __config__.colors.text,
+                        # 'color': __config__.colors.text,
+                        "color": __config__.colors.sil_blue,
                     },
                 ],
                 ha=ha,
